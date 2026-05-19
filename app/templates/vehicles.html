@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Veicoli</h2>
+<form method="post" class="card card-body mb-4">{{ form.hidden_tag() }}
+<div class="row g-2"><div class="col">{{ form.model(class='form-control', placeholder='Modello') }}</div><div class="col">{{ form.battery_kwh(class='form-control', placeholder='kWh') }}</div><div class="col">{{ form.submit(class='btn btn-primary') }}</div></div>
+</form>
+<ul class="list-group">{% for v in vehicles %}<li class="list-group-item">{{ v.model }} - {{ v.battery_kwh }} kWh</li>{% endfor %}</ul>
+{% endblock %}

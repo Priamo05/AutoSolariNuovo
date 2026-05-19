@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Misurazioni</h2>
+<form method="post" class="card card-body mb-4">{{ form.hidden_tag() }}
+<div class="row g-2"><div class="col">{{ form.day(class='form-control') }}</div><div class="col">{{ form.production_kwh(class='form-control') }}</div><div class="col">{{ form.consumption_kwh(class='form-control') }}</div><div class="col">{{ form.km_travelled(class='form-control') }}</div><div class="col">{{ form.submit(class='btn btn-primary') }}</div></div>
+</form>
+<table class="table"><thead><tr><th>Data</th><th>Prod</th><th>Cons</th><th>Km</th></tr></thead><tbody>
+{% for e in entries %}<tr><td>{{e.day}}</td><td>{{e.production_kwh}}</td><td>{{e.consumption_kwh}}</td><td>{{e.km_travelled}}</td></tr>{% endfor %}
+</tbody></table>
+{% endblock %}

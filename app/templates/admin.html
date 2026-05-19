@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Pannello Admin</h1>
+<div class="row g-3">
+  <div class="col"><div class="card card-body">Utenti: {{ users }}</div></div>
+  <div class="col"><div class="card card-body">Impianti: {{ plants }}</div></div>
+  <div class="col"><div class="card card-body">Veicoli: {{ vehicles }}</div></div>
+  <div class="col"><div class="card card-body">Misurazioni: {{ rows }}</div></div>
+</div>
+<a class="btn btn-success mt-3" href="{{ url_for('main.export_csv') }}">Download CSV</a>
+{% endblock %}

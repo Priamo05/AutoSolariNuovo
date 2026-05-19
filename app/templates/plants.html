@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Impianti</h2>
+<form method="post" class="card card-body mb-4">{{ form.hidden_tag() }}
+<div class="row g-2"><div class="col">{{ form.name(class='form-control', placeholder='Nome') }}</div><div class="col">{{ form.plant_type(class='form-select') }}</div><div class="col">{{ form.installed_kw(class='form-control', placeholder='kW') }}</div><div class="col">{{ form.install_date(class='form-control') }}</div><div class="col">{{ form.submit(class='btn btn-primary') }}</div></div>
+</form>
+<ul class="list-group">{% for p in plants %}<li class="list-group-item">{{ p.name }} - {{ p.plant_type }} - {{ p.installed_kw }} kW</li>{% endfor %}</ul>
+{% endblock %}

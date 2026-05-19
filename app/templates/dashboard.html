@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Dashboard utente</h1>
+<div class="row g-3 mb-4">
+  <div class="col"><div class="card card-body"><strong>Produzione totale</strong><span>{{ '%.2f'|format(total_prod) }} kWh</span></div></div>
+  <div class="col"><div class="card card-body"><strong>Consumo totale</strong><span>{{ '%.2f'|format(total_cons) }} kWh</span></div></div>
+</div>
+<table class="table table-striped">
+  <thead><tr><th>Data</th><th>Produzione</th><th>Consumo</th><th>Km</th></tr></thead>
+  <tbody>
+    {% for m in measurements %}
+    <tr><td>{{ m.day }}</td><td>{{ m.production_kwh }}</td><td>{{ m.consumption_kwh }}</td><td>{{ m.km_travelled }}</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
