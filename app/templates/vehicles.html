@@ -1,8 +1,27 @@
 {% extends 'base.html' %}
+{% block title %}Veicoli | Auto Solari{% endblock %}
 {% block content %}
-<h2>Veicoli</h2>
-<form method="post" class="card card-body mb-4">{{ form.hidden_tag() }}
-<div class="row g-2"><div class="col">{{ form.model(class='form-control', placeholder='Modello') }}</div><div class="col">{{ form.battery_kwh(class='form-control', placeholder='kWh') }}</div><div class="col">{{ form.submit(class='btn btn-primary') }}</div></div>
+<h2 class="h4">Veicoli</h2>
+<form method="post" class="card card-body mb-4">
+  {{ form.hidden_tag() }}
+  <div class="row g-2 align-items-end">
+    <div class="col-md-5">{{ form.model.label(class='form-label') }}{{ form.model(class='form-control') }}</div>
+    <div class="col-md-5">{{ form.battery_kwh.label(class='form-label') }}{{ form.battery_kwh(class='form-control') }}</div>
+    <div class="col-md-2">{{ form.submit(class='btn btn-primary w-100') }}</div>
+  </div>
 </form>
-<ul class="list-group">{% for v in vehicles %}<li class="list-group-item">{{ v.model }} - {{ v.battery_kwh }} kWh</li>{% endfor %}</ul>
+<div class="card">
+  <ul class="list-group list-group-flush">
+    {% for v in vehicles %}
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+      <span>{{ v.model }} · {{ v.battery_kwh }} kWh</span>
+      <form method="post" action="{{ url_for('main.delete_vehicle', vehicle_id=v.id) }}">
+        <button class="btn btn-sm btn-outline-danger" type="submit">Elimina</button>
+      </form>
+    </li>
+    {% else %}
+    <li class="list-group-item text-muted">Nessun veicolo registrato.</li>
+    {% endfor %}
+  </ul>
+</div>
 {% endblock %}

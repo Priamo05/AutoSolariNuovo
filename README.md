@@ -1,12 +1,19 @@
-# Auto Solari Nuovo - Flask + MySQL + Bootstrap
+# Auto Solari Nuovo (Flask + MySQL + Bootstrap)
 
-Applicazione MVP basata sui requisiti condivisi:
-- autenticazione utenti
-- ruoli user/admin
-- gestione impianti e veicoli
-- inserimento dati energetici e km
-- dashboard personale
-- area admin con export CSV
+Applicazione web per gestire:
+- utenti autenticati con ruoli (`user`, `admin`)
+- impianti energetici
+- veicoli elettrici
+- misurazioni giornaliere (produzione, consumo, km)
+- dashboard personale e area admin con export CSV
+
+## Stack
+- Flask
+- Flask-SQLAlchemy
+- Flask-Login
+- Flask-WTF
+- MySQL (via `pymysql`)
+- Bootstrap 5
 
 ## Avvio rapido
 
@@ -14,9 +21,17 @@ Applicazione MVP basata sui requisiti condivisi:
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
+export SECRET_KEY="cambia-questa-chiave"
 export DATABASE_URL="mysql+pymysql://USER:PASSWORD@localhost/autosolari_db"
-flask --app run.py run
+flask --app run.py run --debug
 ```
 
-## Creazione admin iniziale
-Registrare un utente, poi promuoverlo da shell SQL o endpoint `/promote/<user_id>` quando loggato da admin.
+## Funzionalità principali
+- Registrazione/Login/Logout
+- CRUD base (create + delete) per impianti, veicoli e misurazioni
+- Protezione ownership: ogni utente vede e modifica solo i propri dati
+- Admin dashboard con promozione utente e export CSV globale
+
+## Note
+- Al primo avvio, le tabelle vengono create automaticamente (`db.create_all()`).
+- Endpoint di promozione admin disponibile solo via POST nell'area admin.

@@ -1,16 +1,25 @@
 {% extends 'base.html' %}
+{% block title %}Dashboard | Auto Solari{% endblock %}
 {% block content %}
-<h1>Dashboard utente</h1>
+<h1 class="h3 mb-3">Dashboard personale</h1>
 <div class="row g-3 mb-4">
-  <div class="col"><div class="card card-body"><strong>Produzione totale</strong><span>{{ '%.2f'|format(total_prod) }} kWh</span></div></div>
-  <div class="col"><div class="card card-body"><strong>Consumo totale</strong><span>{{ '%.2f'|format(total_cons) }} kWh</span></div></div>
+  <div class="col-md-4"><div class="card"><div class="card-body"><small>Produzione totale</small><div class="fs-4">{{ '%.2f'|format(total_prod) }} kWh</div></div></div></div>
+  <div class="col-md-4"><div class="card"><div class="card-body"><small>Consumo totale</small><div class="fs-4">{{ '%.2f'|format(total_cons) }} kWh</div></div></div></div>
+  <div class="col-md-4"><div class="card"><div class="card-body"><small>Km totali</small><div class="fs-4">{{ '%.2f'|format(total_km) }} km</div></div></div></div>
 </div>
-<table class="table table-striped">
-  <thead><tr><th>Data</th><th>Produzione</th><th>Consumo</th><th>Km</th></tr></thead>
-  <tbody>
-    {% for m in measurements %}
-    <tr><td>{{ m.day }}</td><td>{{ m.production_kwh }}</td><td>{{ m.consumption_kwh }}</td><td>{{ m.km_travelled }}</td></tr>
-    {% endfor %}
-  </tbody>
-</table>
+<div class="card">
+  <div class="card-header">Ultime 10 misurazioni</div>
+  <div class="table-responsive">
+    <table class="table table-striped mb-0">
+      <thead><tr><th>Data</th><th>Produzione</th><th>Consumo</th><th>Km</th></tr></thead>
+      <tbody>
+        {% for m in measurements %}
+        <tr><td>{{ m.day }}</td><td>{{ m.production_kwh }}</td><td>{{ m.consumption_kwh }}</td><td>{{ m.km_travelled }}</td></tr>
+        {% else %}
+        <tr><td colspan="4" class="text-center text-muted">Nessuna misurazione disponibile.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
 {% endblock %}
