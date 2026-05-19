@@ -1,0 +1,13 @@
+{
+  "name": "autosolari-cloudflare",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "wrangler pages dev public --compatibility-date=2026-05-19",
+    "deploy": "wrangler pages deploy public",
+    "check": "node --check functions/api/[[path]].js"
+  },
+  "devDependencies": {
+    "wrangler": "^4.17.0"
+  }
+}

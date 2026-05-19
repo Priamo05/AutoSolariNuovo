@@ -1,37 +1,48 @@
-# Auto Solari Nuovo (Flask + MySQL + Bootstrap)
+# Auto Solari Nuovo su Cloudflare Pages + Workers
 
-Applicazione web per gestire:
-- utenti autenticati con ruoli (`user`, `admin`)
-- impianti energetici
-- veicoli elettrici
-- misurazioni giornaliere (produzione, consumo, km)
-- dashboard personale e area admin con export CSV
+Questa versione è stata riscritta per funzionare su **Cloudflare Pages** con backend in **Pages Functions (Workers runtime)**, senza Flask.
 
-## Stack
-- Flask
-- Flask-SQLAlchemy
-- Flask-Login
-- Flask-WTF
-- MySQL (via `pymysql`)
-- Bootstrap 5
+## Architettura
+- Frontend statico in `public/` (Bootstrap + JS)
+- API serverless in `functions/api/`
+- Database Cloudflare **D1** (SQLite gestito) tramite binding `DB`
 
-## Avvio rapido
+## Struttura
+- `public/index.html`: UI login/registrazione/dashboard
+- `public/app.js`: logica client (auth, CRUD impianti/veicoli/misurazioni, admin)
+- `functions/api/[[path]].js`: router API unico
+- `schema.sql`: schema D1
+- `wrangler.toml`: configurazione progetto Cloudflare
 
+## Deploy su Cloudflare Pages
+1. Crea progetto Pages collegato a questa repo.
+2. Build command: nessuno (`""`)
+3. Build output directory: `public`
+4. Aggiungi una D1 database e collega il binding `DB`.
+5. Esegui migrazione schema:
+   ```bash
+   npx wrangler d1 execute autosolari_db --remote --file=schema.sql
+   ```
+6. Deploy.
+
+## Sviluppo locale
 ```bash
-python -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-export SECRET_KEY="cambia-questa-chiave"
-export DATABASE_URL="mysql+pymysql://USER:PASSWORD@localhost/autosolari_db"
-flask --app run.py run --debug
+npm install
+npm run dev
 ```
 
-## Funzionalità principali
-- Registrazione/Login/Logout
-- CRUD base (create + delete) per impianti, veicoli e misurazioni
-- Protezione ownership: ogni utente vede e modifica solo i propri dati
-- Admin dashboard con promozione utente e export CSV globale
+## Endpoint principali
+- `POST /api/auth/register`
+- `POST /api/auth/login`
+- `GET /api/dashboard`
+- `GET/POST/DELETE /api/plants`
+- `GET/POST/DELETE /api/vehicles`
+- `GET/POST/DELETE /api/measurements`
+- `GET /api/admin/stats`
+- `POST /api/admin/promote`
+- `GET /api/admin/export.csv`
 
-## Note
-- Al primo avvio, le tabelle vengono create automaticamente (`db.create_all()`).
-- Endpoint di promozione admin disponibile solo via POST nell'area admin.
+## Note sicurezza
+- Sessione basata su cookie `session` firmato HMAC (WebCrypto)
+- CSRF mitigato via SameSite=Strict + HttpOnly cookie
+- Role check lato API (`user` / `admin`)

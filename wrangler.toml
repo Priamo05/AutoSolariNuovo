@@ -1,0 +1,7 @@
+name = "autosolari-nuovo"
+compatibility_date = "2026-05-19"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "autosolari_db"
+database_id = "REPLACE_WITH_REAL_D1_ID"
