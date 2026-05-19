@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}Impianti | Auto Solari{% endblock %}
+{% block content %}
+<h2 class="h4">Impianti</h2>
+<form method="post" class="card card-body mb-4">
+  {{ form.hidden_tag() }}
+  <div class="row g-2 align-items-end">
+    <div class="col-md-3">{{ form.name.label(class='form-label') }}{{ form.name(class='form-control') }}</div>
+    <div class="col-md-3">{{ form.plant_type.label(class='form-label') }}{{ form.plant_type(class='form-select') }}</div>
+    <div class="col-md-2">{{ form.installed_kw.label(class='form-label') }}{{ form.installed_kw(class='form-control') }}</div>
+    <div class="col-md-2">{{ form.install_date.label(class='form-label') }}{{ form.install_date(class='form-control') }}</div>
+    <div class="col-md-2">{{ form.submit(class='btn btn-primary w-100') }}</div>
+  </div>
+</form>
+<div class="card">
+  <ul class="list-group list-group-flush">
+    {% for p in plants %}
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+      <span>{{ p.name }} · {{ p.plant_type }} · {{ p.installed_kw }} kW · {{ p.install_date }}</span>
+      <form method="post" action="{{ url_for('main.delete_plant', plant_id=p.id) }}">
+        <button class="btn btn-sm btn-outline-danger" type="submit">Elimina</button>
+      </form>
+    </li>
+    {% else %}
+    <li class="list-group-item text-muted">Nessun impianto registrato.</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}

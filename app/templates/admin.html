@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}Admin | Auto Solari{% endblock %}
+{% block content %}
+<h1 class="h3 mb-3">Pannello Admin</h1>
+<div class="row g-3 mb-4">
+  <div class="col-md-3"><div class="card"><div class="card-body">Utenti: <strong>{{ users }}</strong></div></div></div>
+  <div class="col-md-3"><div class="card"><div class="card-body">Impianti: <strong>{{ plants }}</strong></div></div></div>
+  <div class="col-md-3"><div class="card"><div class="card-body">Veicoli: <strong>{{ vehicles }}</strong></div></div></div>
+  <div class="col-md-3"><div class="card"><div class="card-body">Misurazioni: <strong>{{ rows }}</strong></div></div></div>
+</div>
+
+<div class="d-flex gap-2 mb-3">
+  <a class="btn btn-success" href="{{ url_for('main.export_csv') }}">Download CSV</a>
+</div>
+
+<div class="card">
+  <div class="card-header">Ultimi utenti registrati</div>
+  <ul class="list-group list-group-flush">
+    {% for u in latest_users %}
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+      <span>{{ u.full_name }} ({{ u.email }}) - ruolo: {{ u.role }}</span>
+      {% if u.role != 'admin' %}
+      <form method="post" action="{{ url_for('main.promote', user_id=u.id) }}">
+        <button class="btn btn-sm btn-outline-primary" type="submit">Promuovi admin</button>
+      </form>
+      {% endif %}
+    </li>
+    {% else %}
+    <li class="list-group-item text-muted">Nessun utente.</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}
